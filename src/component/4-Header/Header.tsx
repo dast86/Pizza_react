@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "./Header.css";
 import pizzaLogo from "../../img/pizza-logo.svg"; 
 
@@ -14,11 +16,11 @@ const Header = () => {
           </div>
         </div>
         <div className="header__cart">
-          <a href="#" className="button button--cart">
+          <Link to="/basket" className="button button--cart">
             <span>520 ₽</span>
             <div className="button__delimiter"></div>
             <span>3</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

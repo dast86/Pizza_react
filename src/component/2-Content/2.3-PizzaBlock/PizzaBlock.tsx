@@ -3,9 +3,7 @@ import { dataPizzaType } from "../../1-App/dataPizza/dataPizza";
 import { FC } from "react";
 import "./PizzaBlock.css";
 
-// type dataPizzaTypeProps = {
-//   pizzaIteam:dataPizzaType[]
-// }
+
 
 const PizzaBlock: FC<dataPizzaType> = (props) => {
   const [activTypes, serActivTypes] = useState(0);
