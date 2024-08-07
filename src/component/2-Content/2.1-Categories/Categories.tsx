@@ -1,8 +1,15 @@
-import { useState } from "react";
+// import { useState } from "react";
+import type { RootState } from "../../../redux/store";
+
+import { useSelector, useDispatch } from "react-redux";
+import { stateFilter } from "../../../redux/slice/FilterSlice";
 import "./Categories.css";
 
 const Categories = () => {
-  const [activeCategories, setActiveCategories] = useState(0);
+  const value = useSelector((state: RootState) => state.filter.categoryId)
+  const dispatch = useDispatch();
+  
+  // const [activeCategories, setActiveCategories] = useState(0);
   const categories = [
     "Все",
     "Мясные",
@@ -17,10 +24,10 @@ const Categories = () => {
         {categories.map((iteam, i) => (
           <li
             onClick={() => {
-              setActiveCategories(i);
+              dispatch(stateFilter(i));
             }}
             key={iteam}
-            className={activeCategories === i ? "active" : ""}
+            className={value === i ? "active" : ""}
           >
             {" "}
             {iteam}

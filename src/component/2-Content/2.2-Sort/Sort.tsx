@@ -1,9 +1,17 @@
-import "./Sort.css";
+import { useSelector, useDispatch } from "react-redux";
+import { statePoput } from "../../../redux/slice/FilterSlice";
+import { RootState } from "../../../redux/store";
 import { useState } from "react";
+import "./Sort.css";
+
+
 
 const Sort = () => {
+
+  const popupId = useSelector((state: RootState) => state.filter.poputId)
+  const dispatch = useDispatch();
+  
   const [open, setOpen] = useState<boolean>(false);
-  const [poputActive, setPoputActive] = useState<number>(0)
   const sortPopup = ["популярности", "цене", "алфавиту"];
 
   const popup = () => {
@@ -11,7 +19,7 @@ const Sort = () => {
       <div className="sort__popup">
         <ul>
           {sortPopup.map((iteamPopup,index) => (
-            <li onClick={()=>clickPoput(index)} className={poputActive=== index ? 'active':''}>{iteamPopup}</li>
+            <li key={index} onClick={()=>clickPoput(index)} className={popupId=== index ? 'active':''}>{iteamPopup}</li>
           ))}
         </ul>
       </div>
@@ -19,7 +27,7 @@ const Sort = () => {
   };
 
   const clickPoput = (i:number)=>{
-    setPoputActive(i)
+    dispatch(statePoput(i))
     setOpen(false)
   }
 
@@ -27,7 +35,7 @@ const Sort = () => {
     <div className="sort">
       <div className="sort__label">
         <b>Сортировка по:</b>
-        <span onClick={()=>setOpen(!open)} >{sortPopup[poputActive]}</span>
+        <span onClick={()=>setOpen((!open))} >{sortPopup[popupId]}</span>
       </div>
         {open && popup()}
     </div>

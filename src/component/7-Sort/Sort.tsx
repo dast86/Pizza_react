@@ -7,6 +7,8 @@ const Sort = () => {
   const [poputActive, setPoputActive] = useState<number>(0)
   const sortPopup = ["популярности", "цене", "алфавиту"];
 
+
+  // Нужно ли popup указывать тут с большой буквы? 
   const popup = () => {
     return (
       <div className="sort__popup">
