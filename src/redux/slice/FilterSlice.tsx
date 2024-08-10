@@ -19,7 +19,7 @@ export const FilterSlice = createSlice({
   reducers: {
     stateFilter: (state, action:PayloadAction<number>) => {
       state.categoryId = action.payload
-    }, // Или щас записывают методом? 
+    }, 
     statePoput: (state, action:PayloadAction<number>) =>{
       state.poputId=action.payload
     },

@@ -12,17 +12,12 @@ import type { RootState } from "../../redux/store";
 // 
 
 
-
-
-
-
-
-
 const Content = () => {
 
   const [dataPizza, setDataPizza] = useState<dataPizzaType[]>([]);
   const [loding, setLoding] = useState(true);
 
+  console.log(dataPizza)
   const activeCategories: number = useSelector(
     (state: RootState) => state.filter.categoryId
   );

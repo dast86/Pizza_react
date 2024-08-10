@@ -9,7 +9,6 @@ const Categories = () => {
   const value = useSelector((state: RootState) => state.filter.categoryId)
   const dispatch = useDispatch();
   
-  // const [activeCategories, setActiveCategories] = useState(0);
   const categories = [
     "Все",
     "Мясные",

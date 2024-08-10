@@ -1,16 +1,35 @@
 import { useState } from "react";
 import { dataPizzaType } from "../../1-App/dataPizza/dataPizza";
 import { FC } from "react";
+
+// redux-toolkit
+import { useDispatch, useSelector } from "react-redux";
+import { stateAddItem } from "../../../redux/slice/ItemSlice";
+import type { RootState } from "../../../redux/store";
+//
 import "./PizzaBlock.css";
-
-
 
 const PizzaBlock: FC<dataPizzaType> = (props) => {
   const [activTypes, serActivTypes] = useState(0);
   const [activSizes, serActivSizes] = useState(0);
-
-  const { imageUrl, title, types, sizes, price } = props;
+  const { imageUrl, title, types, sizes, price,id } = props;
   const pizzaTypes = ["тонкое", "традиционное"];
+
+  const itemPizzaBasket = useSelector((state:RootState) =>state.pizza.item.find((pizzaIt) => pizzaIt.id === id))
+  const dispatch = useDispatch()
+  
+  console.log("рендер компонента")
+  console.log(itemPizzaBasket)
+
+  const addItemBasket = () => {
+    dispatch(stateAddItem({
+      title,
+      id,
+      price,
+      imageUrl,
+      count:1
+    }))
+  };
 
   return (
     <div className="pizza-block">
@@ -43,7 +62,10 @@ const PizzaBlock: FC<dataPizzaType> = (props) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <div
+          onClick={addItemBasket}
+          className="button button--outline button--add"
+        >
           <svg
             width="12"
             height="12"
@@ -57,7 +79,7 @@ const PizzaBlock: FC<dataPizzaType> = (props) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
+          <i>{itemPizzaBasket?.count || 0}</i>
         </div>
       </div>
     </div>
