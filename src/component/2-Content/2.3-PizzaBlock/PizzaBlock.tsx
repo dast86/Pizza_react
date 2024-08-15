@@ -18,8 +18,7 @@ const PizzaBlock: FC<dataPizzaType> = (props) => {
   const itemPizzaBasket = useSelector((state:RootState) =>state.pizza.item.find((pizzaIt) => pizzaIt.id === id))
   const dispatch = useDispatch()
   
-  console.log("рендер компонента")
-  console.log(itemPizzaBasket)
+
 
   const addItemBasket = () => {
     dispatch(stateAddItem({

@@ -4,14 +4,23 @@ import debounce from "lodash.debounce";
 
 import { Link } from "react-router-dom";
 import pizzaLogo from "../../img/pizza-logo.svg";
-import { useDispatch } from "react-redux";
+
+// Redux-tolkit  
+import { useDispatch, useSelector } from "react-redux";
 import { stateInput } from "../../redux/slice/SearchSlice";
+import { RootState } from "../../redux/store";
+
+
 import "./Header.css";
 
 const Header = () => {
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const [textLocal, setTextLocal] = useState(``) 
+  const iteamPizzaHeader = useSelector((state:RootState)=>state.pizza.item)
+
+  const quantityPizza = iteamPizzaHeader.reduce((accumulator,iteam)=>accumulator + iteam.count,0) // Количество пицц в шапке 
+  const sumPizza = iteamPizzaHeader.reduce((accumulator,iteam)=>accumulator + (iteam.price * iteam.count),0)// сумма пицц в шапке
 
   //  тут типа простой пример использования useRef, мол когда я кликаю на картнку лого, то у меня фокус смещается на импут. 
   const handelCkicl = () => {
@@ -58,9 +67,9 @@ const Header = () => {
         />
         <div className="header__cart">
           <Link to="/basket" className="button button--cart">
-            <span>520 ₽</span>
+            <span>{sumPizza>0?sumPizza:0} ₽</span>
             <div className="button__delimiter"></div>
-            <span>3</span>
+            <span>{quantityPizza >0?quantityPizza:0 }</span>
           </Link>
         </div>
       </div>

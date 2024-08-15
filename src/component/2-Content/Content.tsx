@@ -12,12 +12,11 @@ import type { RootState } from "../../redux/store";
 // 
 
 
-const Content = () => {
+const Content =  () => {
 
   const [dataPizza, setDataPizza] = useState<dataPizzaType[]>([]);
   const [loding, setLoding] = useState(true);
 
-  console.log(dataPizza)
   const activeCategories: number = useSelector(
     (state: RootState) => state.filter.categoryId
   );
@@ -26,18 +25,25 @@ const Content = () => {
   );
   const sortArr = ["rating", `price`, `title`];
 
+  // Тут используется axios вместо fetch
   useEffect(() => {
-    setLoding(true);
-    axios
-      .get(
-        activeCategories
-          ? `https://66a7959a53c13f22a3d04f19.mockapi.io/iteams?sortBy=${sortArr[poputIdContent]}&order=desc&category=${activeCategories}`
-          : `https://66a7959a53c13f22a3d04f19.mockapi.io/iteams?sortBy=${sortArr[poputIdContent]}&order=desc`
-      )
-      .then((res) => {
-        setDataPizza(() => res.data);
+    const fetchData  = async ()=>{
+      setLoding(true);
+      try {
+        const res = await axios.get(
+          activeCategories
+            ? `https://66a7959a53c13f22a3d04f19.mockapi.io/iteams?sortBy=${sortArr[poputIdContent]}&order=desc&category=${activeCategories}`
+            : ` https://66a7959a53c13f22a3d04f19.mockapi.io/iteams?sortBy=${sortArr[poputIdContent]}&order=desc`
+        );
+        setDataPizza(res.data);
         setLoding(false);
-      });
+      }
+      catch (err){
+        console.log(err)
+        setLoding(false);
+      }
+    }; 
+    fetchData()
   }, [activeCategories, poputIdContent]);
 
 
