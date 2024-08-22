@@ -18,7 +18,7 @@ const initialState: InitialState = {
 };
 
 export const ItemSlice = createSlice({
-  name: "item-pizza",
+  name: "item-slice",
   initialState,
   reducers: {
     stateAddItem: (state, action: PayloadAction<Pizza>) => {

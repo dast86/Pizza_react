@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
-import { dataPizzaType } from "../1-App/dataPizza/dataPizza";
+// import { dataPizzaType } from "../1-App/dataPizza/dataPizza";
 import Categories from "./2.1-Categories/Categories";
 import Sort from "./2.2-Sort/Sort";
 import Skeleton from "../8-Skeleton/Skeleton";
 import PizzaIteams from "./2.4 - PizzaIteams/PizzaIteams";
-import axios from "axios";
 
 // redux-toolkit
-import { useSelector } from "react-redux";
-import type { RootState } from "../../redux/store";
+import { useSelector,useDispatch } from "react-redux";
+import type { RootState, AppDispatch } from "../../redux/store";
+import { fetchPizzas } from "../../redux/slice/ItemPizza";
 // 
 
 
 const Content =  () => {
-
-  const [dataPizza, setDataPizza] = useState<dataPizzaType[]>([]);
-  const [loding, setLoding] = useState(true);
+  
+  const dispatch:AppDispatch = useDispatch()
+  // const [dataPizza, setDataPizza] = useState<dataPizzaType[]>([]);
+  const dataPizza = useSelector((state:RootState) => state.itemPizzas.itemPizza)
+  const [loding, setLoding] = useState(false);
 
   const activeCategories: number = useSelector(
     (state: RootState) => state.filter.categoryId
@@ -27,24 +29,14 @@ const Content =  () => {
 
   // Тут используется axios вместо fetch
   useEffect(() => {
-    const fetchData  = async ()=>{
-      setLoding(true);
-      try {
-        const res = await axios.get(
-          activeCategories
-            ? `https://66a7959a53c13f22a3d04f19.mockapi.io/iteams?sortBy=${sortArr[poputIdContent]}&order=desc&category=${activeCategories}`
-            : ` https://66a7959a53c13f22a3d04f19.mockapi.io/iteams?sortBy=${sortArr[poputIdContent]}&order=desc`
-        );
-        setDataPizza(res.data);
-        setLoding(false);
-      }
-      catch (err){
-        console.log(err)
-        setLoding(false);
-      }
-    }; 
-    fetchData()
-  }, [activeCategories, poputIdContent]);
+    
+    dispatch( fetchPizzas({
+      sortArr,
+      poputIdContent,
+      activeCategories
+    }))
+   
+  }, [activeCategories,poputIdContent]);
 
 
  
