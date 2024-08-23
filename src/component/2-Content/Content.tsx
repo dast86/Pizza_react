@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-// import { dataPizzaType } from "../1-App/dataPizza/dataPizza";
+import { useEffect } from "react";
 import Categories from "./2.1-Categories/Categories";
 import Sort from "./2.2-Sort/Sort";
 import Skeleton from "../8-Skeleton/Skeleton";
@@ -15,9 +14,7 @@ import { fetchPizzas } from "../../redux/slice/ItemPizza";
 const Content =  () => {
   
   const dispatch:AppDispatch = useDispatch()
-  // const [dataPizza, setDataPizza] = useState<dataPizzaType[]>([]);
-  const dataPizza = useSelector((state:RootState) => state.itemPizzas.itemPizza)
-  const [loding, setLoding] = useState(false);
+  const {itemPizza, loding} = useSelector((state:RootState) => state.itemPizzas)
 
   const activeCategories: number = useSelector(
     (state: RootState) => state.filter.categoryId
@@ -49,7 +46,7 @@ const Content =  () => {
           <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        {loding ? <Skeleton /> : <PizzaIteams dataPizza={dataPizza} />}
+        {loding === "loding" ? <Skeleton /> : <PizzaIteams dataPizza={itemPizza} />}
       </div>
     </div>
   );

@@ -9,9 +9,10 @@ import "./App.css";
 
 function App() {
 
+
   return (
     <div className="wrapper">
-      <Header  />
+      <Header />
       <Routes>
         <Route path="/" element={<Content />} />
         <Route path="/basket" element={<Basket />} />
