@@ -5,6 +5,7 @@ import { FC } from "react";
 // redux-toolkit
 import { useDispatch, useSelector } from "react-redux";
 import { stateAddItem } from "../../../redux/slice/ItemSlice";
+import { statePutPizza } from "../../../redux/slice/ItemPizza";
 import type { RootState } from "../../../redux/store";
 //
 import "./PizzaBlock.css";
@@ -12,13 +13,21 @@ import "./PizzaBlock.css";
 const PizzaBlock: FC<dataPizzaType> = (props) => {
   const [activTypes, serActivTypes] = useState(0);
   const [activSizes, serActivSizes] = useState(0);
-  const { imageUrl, title, types, sizes, price,id } = props;
+  const { imageUrl, title, types, sizes, price, id } = props;
   const pizzaTypes = ["тонкое", "традиционное"];
 
-  const itemPizzaBasket = useSelector((state:RootState) =>state.pizza.item.find((pizzaIt) => pizzaIt.id === id))
-  const dispatch = useDispatch()
-  
+  const itemPizzaBasket = useSelector((state: RootState) => state.pizza.item.find((pizzaIt) => pizzaIt.id === id))
+  const putPizza = useSelector((state:RootState) => state.itemPizzas.putPizza)
 
+  const dispatch = useDispatch()
+
+  const deletPizza = () => {
+    fetch(`https://66a7959a53c13f22a3d04f19.mockapi.io/iteams/${id}`,
+      {
+        method: 'DELETE',
+      }).then(res => res.json())
+      .then(() => dispatch(statePutPizza(!putPizza))) //Это я тут вызываю, для перезагрузки страницы, этот statePutPizza отслеживается в useEffect в компоненте Content)
+  }
 
   const addItemBasket = () => {
     dispatch(stateAddItem({
@@ -26,12 +35,14 @@ const PizzaBlock: FC<dataPizzaType> = (props) => {
       id,
       price,
       imageUrl,
-      count:1
+      count: 1
     }))
   };
 
   return (
     <div className="pizza-block">
+      <span className="close"
+        onClick={deletPizza}>X</span>
       <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">

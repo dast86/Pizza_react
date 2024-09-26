@@ -7,6 +7,7 @@ import axios from "axios";
 export type InitialState = {
     itemPizza: dataPizzaType[];
     loding: string;
+    putPizza: boolean;
 };
 
 type fetchPizzasProps = {
@@ -32,6 +33,7 @@ export const fetchPizzas = createAsyncThunk(
 const initialState: InitialState = {
     itemPizza: [],
     loding: "loding",
+    putPizza: false,
 };
 
 export const pizzasSlice = createSlice({
@@ -40,13 +42,12 @@ export const pizzasSlice = createSlice({
   reducers: {
     statePizzas: (state, action)=>{
         state.itemPizza = action.payload
+    }, 
+    statePutPizza: (state, action)=>{
+        state.putPizza = action.payload
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchPizzas.pending, (state) =>{
-        state.itemPizza = []
-        state.loding = "loding"
-    })
     builder.addCase(fetchPizzas.fulfilled, (state,action:PayloadAction<dataPizzaType[]>) =>{
         state.itemPizza = action.payload
         state.loding = "success"
@@ -58,6 +59,6 @@ export const pizzasSlice = createSlice({
   }
 });
 
-export const { statePizzas } = pizzasSlice.actions;
+export const { statePizzas,statePutPizza } = pizzasSlice.actions;
 
 export default pizzasSlice.reducer;

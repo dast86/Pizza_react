@@ -14,7 +14,7 @@ import { fetchPizzas } from "../../redux/slice/ItemPizza";
 const Content =  () => {
   
   const dispatch:AppDispatch = useDispatch()
-  const {itemPizza, loding} = useSelector((state:RootState) => state.itemPizzas)
+  const {itemPizza, loding, putPizza} = useSelector((state:RootState) => state.itemPizzas)
 
   const activeCategories: number = useSelector(
     (state: RootState) => state.filter.categoryId
@@ -26,18 +26,15 @@ const Content =  () => {
 
   // Тут используется axios вместо fetch
   useEffect(() => {
-    
+    console.log(itemPizza)
     dispatch( fetchPizzas({
       sortArr,
       poputIdContent,
       activeCategories
     }))
-   
-  }, [activeCategories,poputIdContent]);
-
-
+  }, [activeCategories,poputIdContent,putPizza]);
  
-
+console.log(`Content`)
   return (
     <div className="content">
       <div className="container">

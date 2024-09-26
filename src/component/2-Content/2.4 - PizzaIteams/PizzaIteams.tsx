@@ -16,7 +16,8 @@ const PizzaIteams: FC<dataPizzaProps> = ({ dataPizza }) => {
 
   return (
     <div className="content__items">
-      {dataPizza
+          
+      { dataPizza
         .filter((iteamFilter) =>
           iteamFilter.title
             .toLowerCase()

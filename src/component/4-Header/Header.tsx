@@ -1,5 +1,5 @@
 import { useRef, useCallback, useState } from "react";
-
+import AddPizzaBlock from "../9-AddPizzaBlock/AddPizzaBlock";
 import debounce from "lodash.debounce";
 
 import { Link } from "react-router-dom";
@@ -16,13 +16,15 @@ import "./Header.css";
 const Header = () => {
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [textLocal, setTextLocal] = useState(``) 
-  const iteamPizzaHeader = useSelector((state:RootState)=>state.pizza.item)
+  const [textLocal, setTextLocal] = useState(``)
+  const [addForm, setAddForm] = useState<boolean>(false)
 
-  const quantityPizza = iteamPizzaHeader.reduce((accumulator,iteam)=>accumulator + iteam.count,0) // Количество пицц в шапке 
-  const sumPizza = iteamPizzaHeader.reduce((accumulator,iteam)=>accumulator + (iteam.price * iteam.count),0)// сумма пицц в шапке
 
-  //  тут типа простой пример использования useRef, мол когда я кликаю на картнку лого, то у меня фокус смещается на импут. 
+  const iteamPizzaHeader = useSelector((state: RootState) => state.pizza.item)
+  const quantityPizza = iteamPizzaHeader.reduce((accumulator, iteam) => accumulator + iteam.count, 0) // Количество пицц в шапке 
+  const sumPizza = iteamPizzaHeader.reduce((accumulator, iteam) => accumulator + (iteam.price * iteam.count), 0)// сумма пицц в шапке
+
+  //  тут типа простой пример использования useRef, мол когда я кликаю на лого, то у меня фокус смещается на импут. 
   const handelCkicl = () => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -30,7 +32,7 @@ const Header = () => {
   };
   // 
 
-// Тут логига для того, что бы поиск запрашивал на сервере данные через секунду после того,  как мы ввели что то в поле инпут 
+  // Тут логига для того, что бы поиск запрашивал на сервере данные через секунду после того,  как мы ввели что то в поле инпут 
   const debonInput = useCallback(
     debounce((str) => {
       dispatch(stateInput(str));
@@ -41,7 +43,7 @@ const Header = () => {
     setTextLocal(event.target.value)
     debonInput(event.target.value);
   };
-// 
+
 
 
   return (
@@ -49,7 +51,7 @@ const Header = () => {
       <div className="container">
         <div className="header__logo">
           <img
-            onClick={() => handelCkicl()}
+           onClick={() => handelCkicl()}
             width="38"
             src={pizzaLogo}
             alt="Pizza logo"
@@ -67,11 +69,24 @@ const Header = () => {
         />
         <div className="header__cart">
           <Link to="/basket" className="button button--cart">
-            <span>{sumPizza>0?sumPizza:0} ₽</span>
+            <span>{sumPizza > 0 ? sumPizza : 0} ₽</span>
             <div className="button__delimiter"></div>
-            <span>{quantityPizza >0?quantityPizza:0 }</span>
+            <span>{quantityPizza > 0 ? quantityPizza : 0}</span>
           </Link>
         </div>
+
+        <div className="header__addBlock">
+          <button className="button button--cart"
+            onClick={()=>setAddForm(true)}
+          >
+            <span> Добавить пиццу</span>
+          </button>
+        </div>
+        {addForm &&
+         
+            <AddPizzaBlock  flagModal={setAddForm}/>
+         
+        }
       </div>
     </div>
   );
